@@ -14,23 +14,23 @@ Distributed system:
 
 Karakteristik sistem terdistribusi:
 
-    * terdiri dari kumpulan elemen (node) yang berdiri sendiri (autonomous)
-    * dari sudut pandang pengguna, sistem terdistribusi dilihat sebagai satu
-      sistem yang coherent (satu kesatuan)
+* terdiri dari kumpulan elemen (node) yang berdiri sendiri (autonomous)
+* dari sudut pandang pengguna, sistem terdistribusi dilihat sebagai satu
+  sistem yang coherent (satu kesatuan)
 
 Contoh-contoh sistem terdistribusi:
 
-    * multithreaded application
-    * aplikasi client server (2-tier, 3-tier, n-tier)
-        2-tier: aplikasi desktop yang terhubung ke sql server
-        3-tier: aplikasi mobile/web yang terhubung dengan application server
-                yang mengakses data di storage/sql server
-    * software as a service (cloud)
-        dropbox, gmail, instant messaging (whatsapp, telegram, dll),
-        (massive) multiplayer (online) game
-    * perangkat internet of things (IoT)
-        sensor (suhu, cahaya, gerak, listrik, suara)
-        cctv
+* multithreaded application
+* aplikasi client server (2-tier, 3-tier, n-tier)
+  2-tier: aplikasi desktop yang terhubung ke sql server
+  3-tier: aplikasi mobile/web yang terhubung dengan application server
+  yang mengakses data di storage/sql server
+* software as a service (cloud)
+  dropbox, gmail, instant messaging (whatsapp, telegram, dll),
+  (massive) multiplayer (online) game
+* perangkat internet of things (IoT)
+  sensor (suhu, cahaya, gerak, listrik, suara)
+  cctv
 
 
 ## Distributed system vs centralized system (vs decentralized system)
