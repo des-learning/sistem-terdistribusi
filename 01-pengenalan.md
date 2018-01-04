@@ -8,15 +8,18 @@
 ## Apa itu sistem terdistribusi
 
 Distributed system:
+
     A distributed system is a collection of autonomous computing elements that
     appears to its users as a single coherent system
 
 Karakteristik sistem terdistribusi:
+
     * terdiri dari kumpulan elemen (node) yang berdiri sendiri (autonomous)
     * dari sudut pandang pengguna, sistem terdistribusi dilihat sebagai satu
       sistem yang coherent (satu kesatuan)
 
 Contoh-contoh sistem terdistribusi:
+
     * multithreaded application
     * aplikasi client server (2-tier, 3-tier, n-tier)
         2-tier: aplikasi desktop yang terhubung ke sql server
@@ -38,11 +41,13 @@ https://medium.com/@bbc4468/centralized-vs-decentralized-vs-distributed-41d92d46
 ## Manfaat sistem terdistribusi
 
 Masalah yang ingin diselesaikan oleh sistem terdistribusi:
+
 * skalabilitas: menangani pertumbuhan pengguna/request yang perlu dilayani
 * reliabilitas: membangun sistem yang fault tolerant
 * resource sharing: computation, storage, bandwidth
 
 Skalabilitas
+
 - jumlah user/request semakin banyak, tidak bisa lagi dilayani dengan baik oleh
   satu sistem, perlu sistem lain yang sama persis untuk berbagi beban
   (load balance)
@@ -53,10 +58,12 @@ Skalabilitas
   banyak sistem dan kemudian menggabungkan hasilnya (map reduce)
 
 Reliabilitas
+
 - ada sistem cadangan yang masih dapat melayani user/request apabila sistem
   utama gagal (fail over)
 
 Resource sharing
+
 - cloud computing
   sumber daya/layanan komputasi disewakan kepada pengguna (menjadi perusahan
   utility seperti perusahaan listrik, air, telepon dan gas).
@@ -146,13 +153,16 @@ Resource sharing
 ## Tantangan dan Masalah Sistem Terdistribusi
 
 Beberapa tantangan dan masalah yang dihadapi oleh sistem terdistribusi:
+
 1. Koordinasi
+
    Bagaimana node autonomous dapat berkoordinasi mengenai task yang perlu
    diselesaikan? Bagaimana dengan akses terhadap shared resource?
    Bagaimana bila terjadi kegagalan pada satu/sebagian dari node?
    Bagaimana dengan masalah waktu (timestamp)?
 
 2. Komunikasi
+
    Bagaimana pengguna dapat mengakses layanan pada sistem terdistribusi
    tanpa perlu mengetahui node-node yang membentuk sistem tersebut
    Bagaimana node bisa saling berkomunikasi baik dalam hal koordinasi
@@ -160,5 +170,6 @@ Beberapa tantangan dan masalah yang dihadapi oleh sistem terdistribusi:
    pekerjaan.
 
 3. Keamanan
+
    Bagaimana masing-masing node dapat menjaga keamanan dalam komunikasi
    dengan node lainnya?
