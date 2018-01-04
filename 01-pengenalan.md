@@ -3,6 +3,7 @@
 * distrbuted system vs centralised system (vs desentralised system)
 * apa manfaat atau masalah yang ingin diselesaikan oleh sistem terdistribusi
 * tantangan atau masalah pada sistem terdistribusi
+* fallacies of distributed system
 
 
 ## Apa itu sistem terdistribusi
@@ -22,20 +23,25 @@ Contoh-contoh sistem terdistribusi:
 
 * multithreaded application
 * aplikasi client server (2-tier, 3-tier, n-tier)
-  2-tier: aplikasi desktop yang terhubung ke sql server
-  3-tier: aplikasi mobile/web yang terhubung dengan application server
-  yang mengakses data di storage/sql server
+
+  - 2-tier: aplikasi desktop yang terhubung ke sql server
+  - 3-tier: aplikasi mobile/web yang terhubung dengan application server
+    yang mengakses data di storage/sql server
+
 * software as a service (cloud)
+
   dropbox, gmail, instant messaging (whatsapp, telegram, dll),
   (massive) multiplayer (online) game
+
 * perangkat internet of things (IoT)
+
   sensor (suhu, cahaya, gerak, listrik, suara)
   cctv
 
 
 ## Distributed system vs centralized system (vs decentralized system)
 
-https://medium.com/@bbc4468/centralized-vs-decentralized-vs-distributed-41d92d463868
+[Distributed vs centralized (vs decentralized) system](https://medium.com/@bbc4468/centralized-vs-decentralized-vs-distributed-41d92d463868)
 
 
 ## Manfaat sistem terdistribusi
@@ -173,3 +179,15 @@ Beberapa tantangan dan masalah yang dihadapi oleh sistem terdistribusi:
 
    Bagaimana masing-masing node dapat menjaga keamanan dalam komunikasi
    dengan node lainnya?
+
+## [Distributed Computing Fallacies](https://en.wikipedia.org/wiki/Fallacies_of_distributed_computing)
+
+Beberapa asumsi salah yang sering menyebabkan kegagalan proyek sistem terdistribusi:
+  * The network is reliable.
+  * Latency is zero.
+  * Bandwidth is infinite.
+  * The network is secure.
+  * Topology doesn't change.
+  * There is one administrator.
+  * Transport cost is zero.
+  * The network is homogeneous.
