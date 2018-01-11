@@ -1,5 +1,11 @@
 /**
  * Class ini yang akan dijalankan pada masing-masing thread
+ *
+ * ada 2 cara untuk mengimplementasikan class yang dijalankan oleh
+ * thread yaitu:
+ *
+ * 1. sub class dari Thread
+ * 2. implement interface Runnable
  */
 public class ThreadHitung implements Runnable {
     private final String name;
