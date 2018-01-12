@@ -21,7 +21,6 @@ public class ServerThread extends Thread {
     // object untuk membaca input dari client
     private final InputStream socketInStream;
     private final DataInputStream dis;
-    private final BufferedReader br;
 
     // list perintah dan proses yang akan dijalankan
     private final Map<String, Command> commands;
@@ -34,7 +33,6 @@ public class ServerThread extends Thread {
         // initialize input stream
         this.socketInStream = s.getInputStream();
         this.dis = new DataInputStream(socketInStream);
-        this.br = new BufferedReader(new InputStreamReader(this.dis));
 
         // initialize commands
         this.commands = new HashMap<>();
@@ -70,7 +68,6 @@ public class ServerThread extends Thread {
     public void run() {
 
         Boolean loop = true;
-        writeStream("Hello Master\n");
         // main loop
         while(loop) {
             // baca perintah dari client
@@ -93,7 +90,7 @@ public class ServerThread extends Thread {
      */
     private void writeStream(String message) {
         try {
-            this.dos.writeBytes(message);
+            this.dos.writeUTF(message);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
@@ -106,7 +103,7 @@ public class ServerThread extends Thread {
     private String readStream() {
         String result = "";
         try {
-            result = br.readLine();
+            result = dis.readUTF();
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
