@@ -4,7 +4,6 @@ Socket server interactive untuk berinteraksi dengan socket client interactive.
 
 Flow aplikasi:
 1. Listen ke port 1286
-2. Loop *forever*, terima koneksi dari client
 2. Loop *forever*, mulai sesi komunikasi dengan client
 
    2.1. Baca request dari client
