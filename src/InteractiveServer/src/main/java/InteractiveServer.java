@@ -30,7 +30,7 @@ public class InteractiveServer {
                     if (request.equals("stop") || request.equals("quit")) {
                         response = "Bye-bye";
                         loop = false;
-                    } else if (request.equals("date") || request.equals("date")) {
+                    } else if (request.equals("time") || request.equals("date")) {
                         response = new Date().toString();
                     }
                     // kirim response
