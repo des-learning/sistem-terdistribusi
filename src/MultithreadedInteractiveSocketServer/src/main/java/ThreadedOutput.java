@@ -27,11 +27,11 @@ class ThreadedOutput extends Thread {
                         break;
                     }
                 }
-                command = this.response.get();
             }
 
             try {
-                outputStream.writeUTF(command);
+                if (command != null)
+                    outputStream.writeUTF(command);
             } catch (IOException e) {
                 System.out.println(String.format("Client disconnect from %s", this.socket.getRemoteSocketAddress()));
                 break;

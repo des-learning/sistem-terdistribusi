@@ -49,14 +49,15 @@ public class ThreadedServer extends Thread {
                         }
                         this.responses.notify();
                     }
+                } else {
+                    try {
+                        this.requests.wait();
+                    } catch (InterruptedException e) {
+                    }
                 }
 
                 if (!loop) break;
 
-                try {
-                    this.requests.wait();
-                } catch (InterruptedException e) {
-                }
             }
         }
 
