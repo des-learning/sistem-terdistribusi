@@ -4,10 +4,10 @@ import java.net.Socket;
 
 class ThreadedInput extends Thread {
     private final DataInputStream inputStream;
-    private final Request request;
+    private final Message request;
     private final Socket socket;
 
-    ThreadedInput(Socket socket, Request request) throws IOException {
+    ThreadedInput(Socket socket, Message request) throws IOException {
         this.socket = socket;
         this.inputStream = new DataInputStream(socket.getInputStream());
         this.request = request;

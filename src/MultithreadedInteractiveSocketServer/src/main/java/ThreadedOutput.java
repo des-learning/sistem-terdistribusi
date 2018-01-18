@@ -4,30 +4,30 @@ import java.net.Socket;
 
 class ThreadedOutput extends Thread {
     private final DataOutputStream outputStream;
-    private final Request request;
+    private final Message response;
     private final Socket socket;
 
-    ThreadedOutput(Socket socket, Request request) throws IOException {
+    ThreadedOutput(Socket socket, Message response) throws IOException {
         this.socket = socket;
         this.outputStream = new DataOutputStream(socket.getOutputStream());
-        this.request = request;
+        this.response = response;
     }
 
     @Override
     public void run() {
         while (true) {
             String command;
-            synchronized (this.request) {
-                command = this.request.get();
+            synchronized (this.response) {
+                command = this.response.get();
                 if (command == null) {
                     try {
-                        this.request.wait();
+                        this.response.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace(System.err);
                         break;
                     }
-                    command = this.request.get();
                 }
+                command = this.response.get();
             }
 
             try {

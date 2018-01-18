@@ -2,39 +2,43 @@
 
 Contoh penggunaan thread untuk menangani input dan output stream.
 
-Masing-masing client yang terhubung ke server akan dilayani oleh `ThreadedServer`. `ThreadedServer` akan membuat lagi
-dua thread yaitu `ThreadedInput` dan `ThreadedOutput` untuk meng-handle input stream dan output stream dari dan ke
-client.
+Pada contoh ini ada 3 thread yang akan berjalan untuk masing-masing koneksi:
+1. `ThreadedServer` akan menghandle koneksi dari masing-masing client. Thread ini juga yang nantinya akan
+   mengkoordinasi thread `ThreadedInput` dan `ThreadedOutput`.
+2. `ThreadedInput`, subthread dari `ThreadedServer` untuk menangani seluruh input yang dikirim dari client ke server.
+3. `ThreadedOutput`, subthread dari `ThreadedServer` untuk menangani seluruh output yang akan dkirim dari server ke
+   client.
+   
+`ThreadedServer` akan membuat 2 thread yaitu `ThreadedInput` dan `ThreadedOutput` dan menginisialisasi object
+`requests` dan `responses` sebagai buffer untuk menampung data `requests` dari `ThreadedInput` dan data output ke
+`ThreadedOutput`.
 
-Tujuan dari penggunaan thread untuk handling input dan output stream ini adalah supaya `ThreadedServer` tidak blocking
-pada saat menerima/mengirimkan data dari/ke client.
+Object `requests` dan `responses` akan digunakan oleh 2 thread, yaitu:
+1. `requests` digunakan oleh `ThreadedInput` untuk menambahkan string yang dikirim oleh client dan digunakan juga oleh
+   `ThreadedServer` untuk memproses string yang diterima.
+2. `responses` digunakan oleh `ThreadedServer` yaitu untuk menyimpan output yang akan dikirim ke client dan oleh
+   `ThreadedOutput` untuk mengirimkan output ke client.
+   
+Object yang digunakan oleh dua atau lebih thread dan akan ada operasi yang mengubah object harus dilakukan secara
+berurutan dan atomic untuk menghalangi terjadinya *race condition* dimana dua atau lebih thread mengubah isi object
+sehingga isi object tidak lagi konsisten. Hal ini bisa dilakukan melalui **synchronized** statement/method.
 
-Pada contoh ini, `ThreadedInput` dan `ThreadedOutput` akan menggunakan shared object `Request`. Object `Request`
-digunakan untuk menampung input dari `ThreadedInput` untuk dikonsumsi oleh `ThreadedOutput`.
+Keyword **synchronized** pada Java berfungsi untuk mengunci object sehingga hanya 1 thread saja yang bisa melakukan
+operasi pada object pada satu saat.
 
-Tantangan utama shared object pada aplikasi multithreaded adalah bagaimana mengkoordinasi thread supaya shared object
-tidak diubah bersamaan oleh kedua thread (harus dilakukan secara serial/berurutan).
+Apabila untuk melakukan suatu operasi akan dilakukan lock terhadap 2 atau lebih object, programmer perlu lebih
+berhati-hati menyusun urutan operasi yang dilakukan supaya tidak terjadi *deadlock*, *livelock* dan *starvation*.
 
-Penjelasan flow contoh ini:
-1. Server membuat server socket yang mendengarkan koneksi pada port 1286.
-2. Apabila ada client yang melakukan koneksi, buat buat instance socket dan kemudian buat thread `ThreadedServer`
-   dengan socket bersangkutan untuk menghandle koneksi client.
-3. Pada `ThreadedServer`, buat thread `ThreadedInput` dan `ThreadedOutput` untuk menghandle stream input dan output
-   client bersangkutan.
-   
-   Pada class ini juga di-*instantiate* class `Request`. Object `Request` merupakan shared object yang nanti akan
-   dipakai pada `ThreadedInput` dan `ThreadedOutput` untuk menampung request yang dikirim oleh client dan akan diproses
-   pada `ThreadedOutput` untuk menentukan response yang akan dikirim ke client.
-   
-   Karena object `Request` akan dipakai oleh 2 thread yang berbeda, perubahan terhadap object ini harus dilakukan
-   secara **synchronized** supaya tidak terjadi *race condition*.
-   
-4. `ThreadedOutput` akan mencoba untuk mengambil string request dari object `Request`, apabila request tidak ditemukan
-   (return null), thread ini akan `wait` menunggu sudah ada request yang tersedia.
-   Jika sudah ada request, proses request dan kirimkan output ke client.
-   
-5. `ThreadedInput` akan menunggu input dari client, apabila sudah ada, tambahkan input string dari client ke object
-   `Request` dan kemudian `notify` thread yang lain untuk kembali melanjutkan prosesnya.
-   
-Pada contoh ini, object `Request` menjadi object monitor yang digunakan untuk mengkoordinasikan pekerjaan masing-masing
-thread.
+*deadlock* terjadi apabila 1 thread perlu meng-lock 2 object (misalnya A dan B) untuk melakukan operasi. Tetapi karena
+urutan lock yang tidak seragam sehingga satu lock dipegang oleh thread pertama dan lock lainnya dipegang oleh thread
+kedua yang menyebabkan masing-masing thread akan saling menunggu. Hal ini menyebabkan aplikasi menjadi hang karena tidak
+ada proses yang bisa dilakukan.
+
+*livelock* terjadi apabila thread gagal melakukan lock terhadap seluruh object yang diperlukan dan kemudian melepaskan
+lock dan mengulang lagi proses locking. Apabila timing seluruh thread sama, hal ini menyebabkan thread memcoba
+mendapatkan lock, gagal, melepaskan kunci dan mengulang kembali. Hal ini juga menyebabkan aplikasi menjang hang karena
+proses berulang terus pada logic locking.
+
+*starvation* terjadi apabila strategi locking dilakukan secara prioritas. Apabila banyak thread dengan prioritas tinggi
+melakukan lock terhadap object, thread dengan prioritas rendah tidak akan kebagian giliran untuk melakukan lock yang
+menyebabkan proses thread prioritas rendah akan stuck karena tidak dapat menlanjutkan proses.
