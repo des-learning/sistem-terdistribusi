@@ -42,3 +42,10 @@ proses berulang terus pada logic locking.
 *starvation* terjadi apabila strategi locking dilakukan secara prioritas. Apabila banyak thread dengan prioritas tinggi
 melakukan lock terhadap object, thread dengan prioritas rendah tidak akan kebagian giliran untuk melakukan lock yang
 menyebabkan proses thread prioritas rendah akan stuck karena tidak dapat menlanjutkan proses.
+
+Ref:
+
+* [Java 101: Understanding Java threads, Part 1: Introducing threads and runnables](https://www.javaworld.com/article/2074217/java-concurrency/java-101--understanding-java-threads--part-1--introducing-threads-and-runnables.html)
+* [Java 101: Understanding Java threads, Part 2: Thread synchronization](https://www.javaworld.com/article/2074318/java-concurrency/java-101--understanding-java-threads--part-2--thread-synchronization.html)
+* [Java 101: Understanding Java threads, Part 3: Thread scheduling, wait/notify, and thread interruption](https://www.javaworld.com/article/2071214/java-concurrency/java-101--understanding-java-threads--part-3--thread-scheduling-and-wait-notify.html)
+* [Java 101: Understanding Java threads, Part 4: Thread groups, volatility, thread-local variables, timers, and thread death](https://www.javaworld.com/article/2071214/java-concurrency/java-101--understanding-java-threads--part-3--thread-scheduling-and-wait-notify.html)
