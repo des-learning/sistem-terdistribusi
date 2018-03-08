@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="output"></div>
+    <input type="text" id="input"> <button type="button" id="send">Send</button>
+    <script>
+        var socket = new WebSocket("ws://localhost:8080/socket")
+
+        socket.onmessage = function(event) {
+            var output = document.querySelector('#output')
+            var p = document.createElement('p')
+            p.innerHTML = event.data
+            output.appendChild(p)
+        }
+
+        document.querySelector("#send").onclick = function() {
+            var text = document.querySelector("#input").value;
+            socket.send(text);
+        }
+    </script>
+</body>
+</html>
