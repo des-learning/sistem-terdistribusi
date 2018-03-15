@@ -5,5 +5,6 @@ public class Main {
         Vertx vertx = Vertx.vertx();
 
         vertx.deployVerticle(new WebVerticle());
+        vertx.deployVerticle(new FibonacciVerticle());
     }
 }
