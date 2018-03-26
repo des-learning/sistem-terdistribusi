@@ -5,6 +5,7 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class WebVerticle extends AbstractVerticle {
@@ -18,9 +19,9 @@ public class WebVerticle extends AbstractVerticle {
             if (socket.path().equals("/socket")) {
                 socket.textMessageHandler(text -> {
                   try {
-                      Question q = new Question(Integer.parseInt(text));
+                      // Question q = new Question(Integer.parseInt(text));
                       vertx.eventBus().send("fibonacci-request",
-                              JsonObject.mapFrom(q), reply -> {
+                              Integer.parseInt(text), reply -> {
                           socket.writeTextMessage(processAnswer(reply));
                               });
                   } catch (Exception e) {
@@ -43,11 +44,7 @@ public class WebVerticle extends AbstractVerticle {
 
     private String processAnswer(AsyncResult<Message<Object>> reply) {
        if (reply.succeeded()) {
-          Answer a = JsonObject.mapFrom(reply.result().body())
-                  .mapTo(Answer.class);
-          String answer = a.getId() + ": " + a.getAnswers().stream()
-                  .map(x -> x.toString())
-                  .collect(Collectors.joining(","));
+          String answer = (String) reply.result().body();
           return answer;
       } else {
            return "Error getting result";

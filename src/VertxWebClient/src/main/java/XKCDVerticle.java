@@ -47,9 +47,15 @@ public class XKCDVerticle extends AbstractVerticle {
                 // handler yang melanjutkan proses setelah seluruh future tasks yang melakukan request ke web selesai
                 // dan sukses
                 if (result.succeeded()) {
+                    result.result().list().stream().forEach(x -> {
+                        if (x instanceof JsonObject) {
+                            JsonObject json = (JsonObject) x;
+                            response.write("<div><img src=\"" + json.getString("img") + "\"><p>" + json.getString("title") + "</p></div>" );
+                        }
+                    });
                     response.write("<div>");
                     if (page > 0)
-                        response.write("<a href=\"/?page=" + (page-1) + "\">Prev</a>");
+                        response.write("<a href=\"/?page=" + (page-1) + "\">Prev</a> || ");
                     response.write("<a href=\"/?page=" + (page+1) + "\">Next</a>");
                     response.write("</div>");
                 } else {
@@ -78,19 +84,17 @@ public class XKCDVerticle extends AbstractVerticle {
     }
 
     // future mengembalikan hasil eksekusi asynchronous
-    private Future loadXKCD(WebClient client, String url, HttpServerResponse response) {
+    private Future<JsonObject> loadXKCD(WebClient client, String url, HttpServerResponse response) {
         Future future = Future.future();
         // request ke web server dilakukan secara asynchronous
         client.getAbs(url).ssl(true).send(result -> {
             // handler setelah request selesai
             if (result.succeeded()) {
                 JsonObject json = result.result().bodyAsJsonObject();
-                response.write("<div><img src=\"" + json.getString("img") + "\"><p>" + json.getString("title") + "</p></div>" );
+                future.complete(json);
             } else {
-                response.write("<div><p>Resource cannot retrieved</div>");
+                future.fail(result.cause());
             }
-            // notifikasi proses asynchronous selesai
-            future.complete();
         });
         // kembalikan task future untuk diproses oleh client
         return future;

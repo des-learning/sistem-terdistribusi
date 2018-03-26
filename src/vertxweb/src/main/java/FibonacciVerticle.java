@@ -3,17 +3,21 @@ import io.vertx.core.json.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FibonacciVerticle extends AbstractVerticle {
     @Override
     public void start() throws Exception {
         vertx.eventBus().consumer("fibonacci-request")
                 .handler(message -> {
-                    Question q = JsonObject.mapFrom(message.body())
-                            .mapTo(Question.class);
-                    Answer a = new Answer(deploymentID(), q.getQuestion(),
-                            fibonacci(q.getQuestion()));
-                    message.reply(JsonObject.mapFrom(a));
+                    Integer q = (Integer) message.body();
+                    List <Integer> answers = fibonacci(q);
+
+                    message.reply(
+                    answers.stream().map(Object::toString)
+                            .collect(Collectors.joining(","))
+                    );
+
                 });
     }
 
